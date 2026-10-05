@@ -2,9 +2,9 @@ const yaml = require("yaml");
 const fs = require("node:fs");
 
 const BUFFER_ENCODING = "utf8";
-const EXTENTIONS = [".yaml", ".yml"];
+const EXTENSIONS = [".yaml", ".yml"];
 
-function ParseYml(module, filename) {
+function parseYml(module, filename) {
   const content = fs.readFileSync(filename, BUFFER_ENCODING);
   try {
     module.exports = yaml.parse(content);
@@ -14,4 +14,6 @@ function ParseYml(module, filename) {
   }
 }
 
-EXTENTIONS.forEach((ext) => (require.extensions[ext] = ParseYml));
+for (const ext of EXTENSIONS) {
+  require.extensions[ext] = parseYml;
+}
